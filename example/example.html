@@ -71,7 +71,7 @@ function createRandomData(nseries,ngroup,range)
   var data = []
   for (var i = 0; i<nseries; i++) 
   {
-    var obj = {key:'Series '+i,values:[]
+    var obj = {key:'Serie '+i,values:[]
     }
     for (var j = 0; j<ngroup; j++)  
     {
@@ -94,7 +94,7 @@ var chart2 = h2d3.chart()
            
 chart2('#chart2',[
   {
-    "key": "Series1",
+    "key": "Serie1",
     "values": [
       {"label":"Group A","value":87},
       {"label":"Group B","value":9},
@@ -103,7 +103,7 @@ chart2('#chart2',[
       {"label" : "Group with a very very very very very very long label" ,"value" : 63 }
     ]},
   {
-    "key": "Series2",
+    "key": "Serie2",
     "values": [
       {"label":"Group A","value":30},
       {"label":"Group B","value":75},
