@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<meta charset="utf-8" >
+<head>
+<title>h2d3.js Examples</title>
+<script src="../lib/d3.min.js"></script>
+<script src="../h2d3.min.js"></script>
+<link href="../h2d3.min.css" rel="stylesheet" type="text/css"></link>
+
+<style type="text/css">
+.chartContainer{
+  display: block;
+  clear: both;
+}
+.chart{
+  display: inline-block;
+  float:left;
+}
+.rightColumn{
+  display: inline-block;
+  position:relative;
+  float:left;
+}
+.sourceContainer {
+  font-family: monospace;
+  border: solid 1px #D8D8D8;
+  border-radius: 5px;
+  padding: 10px;
+  background-color: #EEE;
+  color: #333;
+}
+.gist{font-size:12px;line-height:16px;margin-bottom:20px;width:100%}
+
+.gist-meta{font-family:Helvetica,Arial,sans-serif;font-size:13px !important}
+.gist-meta a{color:#26a !important;text-decoration:none}
+.gist-meta a:hover{color:#0e4071 !important}
+
+</style>
+
+</head>
+<body>
+  <h1>h2d3.js Examples</h1>  
+  <div class="chartContainer">
+    <div class="chart" id='chart1'></div>
+    <div class="rightColumn">
+      <h3>Source Code</h3>
+      <script src="https://gist.github.com/mcaule/e798a7a4b66ffc92c6f1.js"></script>
+    </div>
+  </div>
+  <div class="chartContainer">
+    <div class="chart" id='chart2'></div>
+    <div class="rightColumn">
+      <h3>Source Code</h3>
+      <script src="https://gist.github.com/mcaule/c4120c0709a4eb2e3e97.js"></script>
+    </div>
+  </div>
+</body> 
+<script>
+
+var chart1 = h2d3.hist()
+            .width(800).height(400)
+            .vertical()
+            .stackedMode()
+
+chart1("#chart1",
+  createRandomData(4,10,[0,10000])
+  )
+
+
+function createRandomData(nseries,ngroup,range)
+{
+  var data = []
+  for (var i = 0; i<nseries; i++) 
+  {
+    var obj = {key:'Series '+i,values:[]
+    }
+    for (var j = 0; j<ngroup; j++)  
+    {
+      obj.values.push({
+        label:'group '+j,
+        value:range[0] +Math.random()*(range[1]-range[0])
+      })
+    }
+    data.push(obj)
+  }
+  return data;
+}
+
+
+
+var chart2 = h2d3.hist()
+          .width(800).height(400)
+          .centerMode()
+
+           
+chart2('#chart2',[
+  {
+    "key": "Series1",
+    "values": [
+      {"label":"Group A","value":87},
+      {"label":"Group B","value":9},
+      {"label":"Group C","value":57},
+      {"label":"Group D","value":41},
+      {"label" : "Group with a very very very very very very long label" ,"value" : 63 }
+    ]},
+  {
+    "key": "Series2",
+    "values": [
+      {"label":"Group A","value":30},
+      {"label":"Group B","value":75},
+      {"label":"Group C","value":45},
+      {"label":"Group D","value":61},
+      {"label" : "Group with a very very very very very very long label" ,"value" : 2  }
+    ]}]) 
+
+</script>
+
+</html>
