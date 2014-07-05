@@ -12,6 +12,10 @@ Bar chart library based on [d3.js](http://d3js.org/)
 - Percent stacked mode
 - Hide/Show series
 
+## Examples
+
+[Example page](http://mcaule.github.io/h2d3.js/example.html)
+
 ## Installation
 
 - Include `d3.js`
