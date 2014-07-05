@@ -10,7 +10,7 @@ h2d3.modeNames = {
 	'SP':'Percent',
 	'C':'Center'
 }
-h2d3.hist = function()
+h2d3.chart = function()
 {
 	//chart size
 	var _width = 600
