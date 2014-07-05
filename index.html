@@ -1,0 +1,108 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>h2d3.js by mcaule</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>h2d3.js</h1>
+        <p>Bar chart library based on d3.js</p>
+
+        <p class="view"><a href="https://github.com/mcaule/h2d3.js">View the Project on GitHub <small>mcaule/h2d3.js</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/mcaule/h2d3.js/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/mcaule/h2d3.js/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/mcaule/h2d3.js">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>
+<a name="h2d3js" class="anchor" href="#h2d3js"><span class="octicon octicon-link"></span></a>h2d3.js</h1>
+
+<p>Bar chart library based on <a href="http://d3js.org/">d3.js</a></p>
+
+<h2>
+<a name="features" class="anchor" href="#features"><span class="octicon octicon-link"></span></a>Features</h2>
+
+<ul>
+<li>Horizontal and vertical bar charts</li>
+<li>Multiple series</li>
+<li>Long labels (auto-adjusting margin)</li>
+<li>Stacked mode</li>
+<li>Percent stacked mode</li>
+<li>Hide/Show series</li>
+</ul><h2>
+<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h2>
+
+<ul>
+<li>Include <code>d3.js</code>
+</li>
+<li>Include <code>h2d3.min.js</code>
+</li>
+<li>Add a link to <code>h2d3.min.css</code>
+</li>
+</ul><h2>
+<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
+
+<p>Create a chart function</p>
+
+<div class="highlight highlight-javascript"><pre><span class="kd">var</span> <span class="nx">chart</span> <span class="o">=</span> <span class="nx">h2d3</span><span class="p">.</span><span class="nx">chart</span><span class="p">()</span>
+          <span class="p">.</span><span class="nx">width</span><span class="p">(</span><span class="mi">800</span><span class="p">).</span><span class="nx">height</span><span class="p">(</span><span class="mi">400</span><span class="p">)</span>
+          <span class="p">.</span><span class="nx">vertical</span><span class="p">()</span><span class="c1">//horizontal by default       </span>
+          <span class="p">.</span><span class="nx">percentMode</span><span class="p">(</span><span class="kc">false</span><span class="p">)</span><span class="c1">//disable percent mode</span>
+</pre></div>
+
+<p>Assign a element and some data to the chart</p>
+
+<div class="highlight highlight-javascript"><pre><span class="nx">chart</span><span class="p">(</span><span class="s1">'#myDiv'</span><span class="p">,</span><span class="nx">data</span><span class="p">)</span>
+</pre></div>
+
+<h2>
+<a name="data-format" class="anchor" href="#data-format"><span class="octicon octicon-link"></span></a>Data format</h2>
+
+<p>h2d3.js read its data as a list of series</p>
+
+<div class="highlight highlight-javascript"><pre><span class="p">[</span>
+  <span class="p">{</span>
+    <span class="nx">key</span><span class="o">:</span> <span class="s2">"Serie1"</span><span class="p">,</span>
+    <span class="nx">values</span><span class="o">:</span> <span class="p">[</span>
+      <span class="p">{</span><span class="nx">label</span><span class="o">:</span><span class="s2">"Group A"</span><span class="p">,</span><span class="s2">"value"</span><span class="o">:</span><span class="mi">87</span><span class="p">},</span>
+      <span class="p">{</span><span class="nx">label</span><span class="o">:</span><span class="s2">"Group B"</span><span class="p">,</span><span class="s2">"value"</span><span class="o">:</span><span class="mi">9</span><span class="p">}</span>
+    <span class="p">]},</span>
+  <span class="p">{</span>
+    <span class="nx">key</span><span class="o">:</span> <span class="s2">"Serie2"</span><span class="p">,</span>
+    <span class="nx">values</span><span class="o">:</span> <span class="p">[</span>
+      <span class="p">{</span><span class="nx">label</span><span class="o">:</span><span class="s2">"Group A"</span><span class="p">,</span><span class="s2">"value"</span><span class="o">:</span><span class="mi">30</span><span class="p">},</span>
+      <span class="p">{</span><span class="nx">label</span><span class="o">:</span><span class="s2">"Group B"</span><span class="p">,</span><span class="s2">"value"</span><span class="o">:</span><span class="mi">75</span><span class="p">}</span>
+    <span class="p">]}]</span>
+</pre></div>
+
+<h2>
+<a name="todolist" class="anchor" href="#todolist"><span class="octicon octicon-link"></span></a>Todolist</h2>
+
+<ul>
+<li>Tooltips</li>
+<li>Sort bars</li>
+</ul>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/mcaule">mcaule</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
