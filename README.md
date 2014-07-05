@@ -39,7 +39,7 @@ chart('#myDiv',data)
 
 h2d3.js read its data as a list of series
 
-```json
+```javascript
 [
   {
     key: "Serie1",
