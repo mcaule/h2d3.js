@@ -14,6 +14,8 @@ Bar chart library based on [d3.js](http://d3js.org/)
 
 ## Examples
 
+<a href='http://mcaule.github.io/h2d3.js/example.html' ><img src='http://mcaule.github.io/h2d3.js/img/example2.png'/></a>
+
 [Example page](http://mcaule.github.io/h2d3.js/example.html)
 
 ## Installation
