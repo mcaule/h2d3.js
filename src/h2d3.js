@@ -1,14 +1,19 @@
 (function(){
 var h2d3 = window.h2d3 || {};
 
-window.h2d3 = h2d3;
-
+window.h2d3 = h2d3;	
 
 h2d3.modeNames = {
 	'N':'Normal',
 	'S':'Stacked',
 	'SP':'Percent',
 	'C':'Center'
+}
+
+h2d3.styles = {	
+	default:["#a6cee3","#ff7f00","#b2df8a","#1f78b4","#fdbf6f","#33a02c","#cab2d6","#6a3d9a","#fb9a99","#e31a1c","#ffff99","#b15928"],
+	pastel:["#61C0E7","#E381B8","#53CDB5","#DC8165","#C296C6","#70AEC3","#6BBA7F","#D39150","#DC7E87","#8DA4D5","#A0B350","#CEAA38"],
+	darkpastel:["#61C0E7","#E381B8","#53CDB5","#DC8165","#C296C6","#70AEC3","#6BBA7F","#D39150","#DC7E87","#8DA4D5","#A0B350","#CEAA38"]					 
 }
 h2d3.chart = function()
 {
@@ -45,6 +50,7 @@ h2d3.chart = function()
 	//bool to remember to rotate xlabel during sort function
 	var hasRotateXLabels = false
 
+	var _style  = 'default'
 
 	function chart(el,data){
 
@@ -85,7 +91,7 @@ h2d3.chart = function()
 		
 		/* create svg */
 		svg = d3.select(el).append('svg')
-			.attr('class','h2d3')
+			.attr('class','h2d3 '+_style)
 		    .attr('width', width )
 		    .attr('height', height  + margin.bottom)
 			.append('g')
@@ -97,8 +103,9 @@ h2d3.chart = function()
 		var controlsBox = svg.select('.h2d3_controls')[0][0].getBBox()
 
 		/* create colorscale (used in legend) */
-		var colorScale = d3.scale.category20()
+		var colorScale = d3.scale.ordinal()
 			.domain(d3.range(nseries))
+			.range(h2d3.styles[_style])
 
 		scales   = {color:colorScale}
 
@@ -129,7 +136,7 @@ h2d3.chart = function()
 		yAxis = createYAxis(tickFormat)
 						
 		chartContent.append('g')
-		      .attr('class', 'h2d3_axis y')
+		      .attr('class', 'h2d3_axis y '+_style)
 		      .call(yAxis)
 		      .attr('transform','translate(-'+margin.axis+',0)')
 
@@ -147,7 +154,7 @@ h2d3.chart = function()
 		xAxis = createXAxis(tickFormat)
 
 		chartContent.append('g')
-				  .attr('class', 'h2d3_axis x')
+				  .attr('class', 'h2d3_axis x '+_style)
 				  .attr('transform', 'translate(0,' + (height+margin.axis) + ')')
 				  .call(xAxis);
 
@@ -167,6 +174,17 @@ h2d3.chart = function()
 			hasRotateXLabels = true
 		}
 
+		
+		/* draw grid background */
+		
+		chartContent.insert('rect',':first-child')
+			.attr('width',width+margin.axis)
+			.attr('height',height+margin.axis)
+			.attr('x',-margin.axis)
+			.attr('y',0)
+			.attr('class','h2d3_gridbg '+_style)
+	
+
 		/* base mode is horizontal, rotate(_90) to vertical*/
 		if(_vertical)
 		{
@@ -174,6 +192,7 @@ h2d3.chart = function()
 			barContainer.attr('transform','rotate(-90) translate(-'+height+',0)')
 		}
 
+		
 		/* create groups */
 		var group = barContainer.selectAll('.h2d3_group')
 			  .data(mdata)
@@ -182,6 +201,7 @@ h2d3.chart = function()
 			  .attr('transform',function(d){return 'translate(0,'+scales.group(d.label)+')';})
 
 		
+
 		/* draw function : set bar's position */
 		var drawFunction = drawFunctions[_mode]
 
@@ -364,6 +384,15 @@ h2d3.chart = function()
 		return chart
 	}	
 
+	chart.style = function(_)
+	{
+		if(!arguments.length) return _style
+		
+		if(h2d3.styles.hasOwnProperty(_))
+			_style=_
+		return chart
+	}
+
 	
 	/*
 		create the control box (change mode feature)
@@ -376,20 +405,21 @@ h2d3.chart = function()
 		.selectAll('g')
 		.data(mode_data)
 		.enter().append('g')
-		.attr('class','h2d3_ctrl')
+		.attr('class','h2d3_ctrl '+_style)
+		.style('cursor','pointer')
 		.attr('transform',function(d,i){return 'translate(0,'+(i*16)+')';})
 		.each(function(d,i){
 			var g = d3.select(this);
 			g.append('circle')
-				.attr('class','h2d3_ctrl_circle')
+				.attr('class','h2d3_ctrl_circle '+_style)
 				.attr('r','5')	
 			g.append('circle')
 				.attr('class',function()
 					{
 						if(d==_mode)
-							return 'h2d3_ctrl_dot h2d3_ctrl_dot_selected';
+							return 'h2d3_ctrl_dot h2d3_ctrl_dot_selected '+_style;
 						else
-							return 'h2d3_ctrl_dot';
+							return 'h2d3_ctrl_dot '+_style;
 					})
 				.attr('r','2')								
 			g.append('text')
@@ -405,13 +435,13 @@ h2d3.chart = function()
 				/* unselect old mode radio button */
 				var otherControls = d3.select(this.parentNode)
 									.selectAll('.h2d3_ctrl_dot_selected')
-									.attr('class','h2d3_ctrl_dot')
+									.attr('class','h2d3_ctrl_dot '+_style)
 
 				changeMode(d)							
 
 				/* select this radio button */
 				d3.select(this).selectAll('.h2d3_ctrl_dot')
-						.attr('class','h2d3_ctrl_dot_selected')
+						.attr('class','h2d3_ctrl_dot h2d3_ctrl_dot_selected '+_style)
 			}
 		})
 
@@ -443,7 +473,7 @@ h2d3.chart = function()
 			d3.select(circle)
 				.attr('stroke',color)
 				.attr('stroke-width','2.5')
-				.attr('fill','#FFFFFF')
+				.attr('fill','none')
 				.attr('class','h2d3_legend_item_circle')
 		}
 
@@ -451,7 +481,7 @@ h2d3.chart = function()
 		{
 			var color = window.getComputedStyle(circle,null).getPropertyValue('stroke')
 			d3.select(circle)
-				.attr('stroke','#FFFFFF')
+				.attr('stroke','none')
 				.attr('stroke-width','0.5')
 				.attr('fill',color)
 		}
@@ -469,7 +499,7 @@ h2d3.chart = function()
 					.attr('class',function(){return 'h2d3_legend_item_circle h2d3_serie_'+createCSSValidClassName(d);})				
 					.attr('fill',function(d){return scales.color(serieMap[d].index);})
 					.attr('stroke-width','0.5')
-					.attr('stroke','#FFFFFF')
+					.attr('stroke','none')
 					.attr('r','5')								
 				g.append('text')
 					.attr('class',function(){return 'h2d3_legend_item_text h2d3_serie_'+createCSSValidClassName(d);})
@@ -603,6 +633,7 @@ h2d3.chart = function()
 		}
 		yAxis.scale(y)
 			 .orient('left')
+
 		return yAxis
 	}
 

@@ -1,35 +1,67 @@
 
 svg.h2d3  {
-  font: normal 12px sans-serif;
+  font: normal 13px 'Lato', 'Open sans', sans-serif;
 }
-
 
 .h2d3_axis path{
   fill: none;
-  stroke: #222;
-  stroke-opacity: .75;
+  stroke-opacity: 0.75;
   shape-rendering: crispEdges;
 }
-
-.h2d3_ctrl
-{
-  cursor:pointer;
-}
-
 .h2d3_ctrl_circle{
-  fill:#FFF;
-  stroke: #222;
+  fill:none;
   stroke-width: 2.5;  
 }
-
-.h2d3_ctrl_circle:hover{
-  fill:#BBB;
-}
-
 .h2d3_ctrl_dot{
   fill:none;
 }
 
-.h2d3_ctrl_dot_selected{
+/* default style */
+.h2d3_gridbg.default {
+  display: none;
+}
+.h2d3_axis.default path{  
+  stroke: #222;  
+}
+.h2d3_ctrl_dot_selected.default{
   fill:#222;
+}
+.h2d3_ctrl_circle.default{  
+  stroke: #222;
+}
+
+/* pastel style */
+svg.h2d3.pastel{
+  fill:#555;
+}
+.h2d3_gridbg.pastel {
+  fill:#F4F3F2;
+}
+.h2d3_axis.pastel path{  
+  stroke: #555;  
+}
+.h2d3_ctrl_dot_selected.pastel{
+  fill:#555;
+}
+.h2d3_ctrl_circle.pastel{  
+  stroke: #555;
+}
+
+/* darkpastel style */
+svg.h2d3.darkpastel{
+  fill:#DDDDDD;
+  background-color: #333333;
+}
+.h2d3_gridbg.darkpastel {
+  display: none;
+}
+.h2d3_axis.darkpastel path{  
+  stroke: #DDDDDD;  
+}
+.h2d3_ctrl_dot_selected.darkpastel{
+  fill:#DDDDDD;
+}
+.h2d3_ctrl_circle.darkpastel{  
+  stroke: #DDDDDD;
+   stroke-width: 1.0;  
 }
