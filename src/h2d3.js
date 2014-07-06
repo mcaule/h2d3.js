@@ -424,6 +424,7 @@ h2d3.chart = function()
 		.enter().append('g')
 		.attr('class','h2d3_ctrl '+_style)
 		.style('cursor','pointer')
+			.attr('pointer-events','all')
 		.attr('transform',function(d,i){return 'translate(0,'+(i*16)+')';})
 		.each(function(d,i){
 			var g = d3.select(this);
@@ -510,6 +511,7 @@ h2d3.chart = function()
 			.enter().append('g')
 			.attr('class','h2d3_legend_item')
 			.style('cursor',(_selectSeries)? 'pointer' : 'auto')
+			.attr('pointer-events','all')
 			.each(function(d,i){
 				var g = d3.select(this);
 				g.append('circle')
@@ -518,6 +520,7 @@ h2d3.chart = function()
 					.attr('stroke-width','0.5')
 					.attr('stroke','none')
 					.attr('r','5')								
+
 				g.append('text')
 					.attr('class',function(){return 'h2d3_legend_item_text h2d3_serie_'+createCSSValidClassName(d);})
 					.attr('dy','.32em')
@@ -574,19 +577,22 @@ h2d3.chart = function()
 	var createTip=function()
 	{		
 		tip = d3.tip()
-		  .attr('class', 'd3-tip '+_style)
+		  .attr('class', 'h2d3-tip '+_style)
 		  .offset([-10, 0])
 		  .direction('n')
 		  .html(function(d) {
 		  	var v = _mode=='SP' ? d.percent : d.value
-		    return ' <span style="color:'+scales.color(serieMap[d.key].index)+'">'+d.key+'</span><span class="h2d3_tooltip_text '+_style+'" > : '+ tickFormat(v) + '</span>';
+		    return ' <span style="color:'+scales.color(serieMap[d.key].index)+'">'+d.key+'</span><span class="h2d3-tip_text '+_style+'" > : '+ tickFormat(v) + '</span>';
 		  })
 		if(_vertical)
+		{
+			// if vertical the rotation cause trouble to compute tooltip's position
 			tip.offset(function(d){
 				var h = this.getAttribute('height')
 				var w = this.getAttribute('width')
 				return [-w/2-10,h/2]
 			})
+		}
 		return tip
 	}
 

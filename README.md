@@ -11,6 +11,7 @@ Bar chart library based on [d3.js](http://d3js.org/)
 - Stacked mode
 - Percent stacked mode
 - Hide/Show series
+- Tooltips (use [d3.tip](https://github.com/Caged/d3-tip))
 
 ## Examples
 
@@ -20,9 +21,9 @@ Bar chart library based on [d3.js](http://d3js.org/)
 
 ## Installation
 
-- Include `d3.js`
-- Include `h2d3.min.js`
-- Add a link to `h2d3.min.css`
+- Include `d3.min.js`
+- For tooltips include `d3.tip.js`
+- Include `h2d3.min.js` and add a link to `h2d3.min.css`
 
 ## Usage
 
@@ -63,6 +64,5 @@ h2d3.js read its data as a list of series
 
 ## Todolist
 
-- Tooltips
-- Sort bars
+- Sort bars based on a serie value
 

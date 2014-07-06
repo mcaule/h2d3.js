@@ -16,32 +16,32 @@ svg.h2d3  {
   fill:none;
 }
 /* d3-tip */
-.d3-tip {
+.h2d3-tip {
   font: normal 13px 'Lato', 'Open sans', sans-serif;
   line-height: 1;
   font-weight: bold;
   padding: 12px;
-  background: rgba(0, 0, 0, 0.8);
-  color: #fff;
+  background: #333333;
+  color: #DDDDDD;
   border-radius: 2px;
 }
 
 /* Creates a small triangle extender for the tooltip */
-.d3-tip:after {
+.h2d3-tip:after {
   box-sizing: border-box;
   display: inline;
   font:'Arial',sans-serif;
   font-size: 10px;
   width: 100%;
   line-height: 1;
-  color: rgba(0, 0, 0, 0.8);
+  color: #333333;
   content: "\25BC";
   position: absolute;
   text-align: center;
 }
 
 /* Style northward tooltips differently */
-.d3-tip.n:after {
+.h2d3-tip.n:after {
   margin: -1px 0 0 0;
   top: 90%;
   left: 0;
@@ -95,8 +95,14 @@ svg.h2d3.darkpastel{
 }
 .h2d3_ctrl_circle.darkpastel{  
   stroke: #DDDDDD;
-   stroke-width: 1.0;  
+  stroke-width: 1.0;
 }
-
-
-
+.h2d3-tip.darkpastel
+{
+  background: #F4F3F2;  
+  color: #333333;
+}
+.h2d3-tip.darkpastel:after
+{
+  color: #F4F3F2;  
+}
