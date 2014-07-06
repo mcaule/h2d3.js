@@ -5,8 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <title>h2d3.js by mcaule</title>
     <script src="javascripts/d3.min.js"></script>
-    <script src="javascripts/h2d3.min.js"></script>
-    <link href="stylesheets/h2d3.min.css" rel="stylesheet" type="text/css"></link>
+    <script src="h2d3.min.js"></script>
+    <link href="h2d3.min.css" rel="stylesheet" type="text/css"></link>
 
     <link rel="stylesheet" href="stylesheets/styles.css">
     <link rel="stylesheet" href="stylesheets/pygment_trac.css">
@@ -22,12 +22,9 @@
       color:#222;
       font-weight: bold;
     }
-    .gist{font-size:12px;line-height:16px;margin-bottom:20px;width:600px}
-
-    .gist-meta{font-family:Helvetica,Arial,sans-serif;font-size:13px !important}
-    .gist-meta a{color:#26a !important;text-decoration:none}
-    .gist-meta a:hover{color:#0e4071 !important}
-
+    .gist{font-size:12px;line-height:16px;margin-bottom:0px;width:600px}
+    .gist-meta{display:none;}
+    .lines.highlight {margin: 0px;}
     </style>
   </head>
   <body>
@@ -48,19 +45,27 @@
       <section>
      <h1>h2d3.js Examples</h1>  
      <h2>Discrete vertical bar chart</h1>  
-      <div class="chartContainer">
+      <div>
         <div class="chart" id='chart1'></div>
-        <div class="rightColumn">
+        <div>
           <h3>Source Code</h3>
           <script src="https://gist.github.com/mcaule/e798a7a4b66ffc92c6f1.js"></script>
         </div>
       </div>
       <h2>Horizontal chart with long labels</h1>  
-      <div class="chartContainer">
+      <div>
         <div class="chart" id='chart2'></div>
-        <div class="rightColumn">
+        <div>
           <h3>Source Code</h3>
           <script src="https://gist.github.com/mcaule/c4120c0709a4eb2e3e97.js"></script>
+        </div>
+      </div>
+      <h2>Vertical bar chart with long labels and dark theme</h1>  
+      <div>
+        <div class="chart" id='chart3'></div>
+        <div>
+          <h3>Source Code</h3>
+          <script src="https://gist.github.com/mcaule/4516f7f69caa177f0882.js"></script>
         </div>
       </div>
       </section>
@@ -106,7 +111,7 @@ function createRandomData(nseries,ngroup,range)
 var chart2 = h2d3.chart()
           .width(600).height(300)
           .centerMode()
-
+          .style('pastel')
            
 chart2('#chart2',[
   {
@@ -127,6 +132,43 @@ chart2('#chart2',[
       {"label":"Group D","value":61},
       {"label" : "Group with a very very very very long label" ,"value" : 2  }
     ]}]) 
+
+var chart3 = h2d3.chart()
+          .width(600).height(400)
+          .stackedMode()
+          .vertical()
+          .style('darkpastel')
+           
+chart3('#chart3',[
+  {
+    "key": "Serie 1",
+    "values": [
+      {"label":"Group A","value":7},
+      {"label":"Group B","value":9},
+      {"label":"Group C","value":57},
+      {"label":"Group D","value":41},
+      {"label" : "Group with a very long label" ,"value" : 63 }
+    ]},
+  {
+    "key": "Serie 2",
+    "values": [
+      {"label":"Group A","value":30},
+      {"label":"Group B","value":75},
+      {"label":"Group C","value":45},
+      {"label":"Group D","value":61},
+      {"label" : "Group with a very long label" ,"value" : 2  }
+    ]},
+  {
+    "key": "Serie 3",
+    "values": [
+      {"label":"Group A","value":56},
+      {"label":"Group B","value":11},
+      {"label":"Group C","value":28},
+      {"label":"Group D","value":79},
+      {"label":"Group E","value":30},
+      {"label" : "Group with a very long label" ,"value" : 24  }
+    ]}
+    ]) 
 
 </script>
 
