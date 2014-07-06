@@ -16,7 +16,8 @@ h2d3.styles = {
 	darkpastel:["#61C0E7","#E381B8","#53CDB5","#DC8165","#C296C6","#70AEC3","#6BBA7F","#D39150","#DC7E87","#8DA4D5","#A0B350","#CEAA38"]					 
 }
 h2d3.chart = function()
-{
+{	
+
 	//chart size
 	var _width = 600
 	var _height = 400
@@ -29,7 +30,8 @@ h2d3.chart = function()
 	var modes = ['N','S','SP','C']	
 	var _disabledModes = []
 	var _mode = ''
-	var _tickFormat = d3.format()
+	var _tickFormat = d3.format() //initial tick format
+	var tickFormat = _tickFormat //current tick format (depending on the mode exemple:percent)
 	var _vertical = false
 	var _selectSeries = true
 	var _hidden = []
@@ -51,6 +53,9 @@ h2d3.chart = function()
 	var hasRotateXLabels = false
 
 	var _style  = 'default'
+
+	var hasTip = d3.hasOwnProperty('tip')
+	var tip = null
 
 	function chart(el,data){
 
@@ -125,15 +130,15 @@ h2d3.chart = function()
 		var chartContent = svg.append('g')
 		var barContainer = chartContent.append('g')		
 
-		var tickFormat = _tickFormat
+		tickFormat = _tickFormat
 		/* change tick format depending on mode*/
 		if(_mode=='SP')
-			tickFormat = d3.format('p') // percent
+			tickFormat = d3.format('.2p') // percent
 		else if(_mode=='C')
 			tickFormat = function(n){return _tickFormat(Math.abs(n))} // non-negative centerscale
 
 		/* create y axis (bar or group axis depending of vertical/horizontal)*/
-		yAxis = createYAxis(tickFormat)
+		yAxis = createYAxis()
 						
 		chartContent.append('g')
 		      .attr('class', 'h2d3_axis y '+_style)
@@ -151,7 +156,7 @@ h2d3.chart = function()
 
 
 		/* create x axis (bar or group axis depending of vertical/horizontal)*/
-		xAxis = createXAxis(tickFormat)
+		xAxis = createXAxis()
 
 		chartContent.append('g')
 				  .attr('class', 'h2d3_axis x '+_style)
@@ -166,7 +171,7 @@ h2d3.chart = function()
 		{
 			/* height of xAxis modified -> change margin */
 			height = height-dy_xAxis
-			yAxis = createYAxis(tickFormat)
+			yAxis = createYAxis()
 			chartContent.select('.h2d3_axis.y')
 				.call(yAxis)
 			chartContent.select('.h2d3_axis.x')
@@ -192,7 +197,11 @@ h2d3.chart = function()
 			barContainer.attr('transform','rotate(-90) translate(-'+height+',0)')
 		}
 
-		
+		if(hasTip)
+		{
+			createTip()
+			barContainer.call(tip)
+		}
 		/* create groups */
 		var group = barContainer.selectAll('.h2d3_group')
 			  .data(mdata)
@@ -206,7 +215,7 @@ h2d3.chart = function()
 		var drawFunction = drawFunctions[_mode]
 
 		/* create bars */
-		group.selectAll('.h2d3_bar')
+		var bars = group.selectAll('.h2d3_bar')
 			.data(function(d)
 			{
 				/* sort data */
@@ -225,6 +234,12 @@ h2d3.chart = function()
 			})
 			.attr('fill',function(d){return colorScale(serieMap[d.key].index);})
 			.call(drawFunction)
+
+		if(hasTip)
+		{
+			bars.on('mouseover',tip.show)
+				.on('mouseout',tip.hide)
+		}
 
 		/* sort based on param sort value*/
 		if(_sortV!='')
@@ -262,6 +277,8 @@ h2d3.chart = function()
 	chart.tickFormat=function(_)
 	{
 		if(!arguments.length) return _tickFormat
+		if(typeof _ == 'string')
+			_ = d3.format(_)
 		_tickFormat=_
 		return chart
 	}
@@ -554,6 +571,25 @@ h2d3.chart = function()
 
 	}
 
+	var createTip=function()
+	{		
+		tip = d3.tip()
+		  .attr('class', 'd3-tip '+_style)
+		  .offset([-10, 0])
+		  .direction('n')
+		  .html(function(d) {
+		  	var v = _mode=='SP' ? d.percent : d.value
+		    return ' <span style="color:'+scales.color(serieMap[d.key].index)+'">'+d.key+'</span><span class="h2d3_tooltip_text '+_style+'" > : '+ tickFormat(v) + '</span>';
+		  })
+		if(_vertical)
+			tip.offset(function(d){
+				var h = this.getAttribute('height')
+				var w = this.getAttribute('width')
+				return [-w/2-10,h/2]
+			})
+		return tip
+	}
+
 	/* used to set css classname based on series name*/
 	function createCSSValidClassName(str)
 	{
@@ -610,7 +646,7 @@ h2d3.chart = function()
 		return 0;
 	}
 
-	var createYAxis=function(tickFormat)
+	var createYAxis=function()
 	{
 		var yAxis = d3.svg.axis()
 		var y
@@ -637,7 +673,7 @@ h2d3.chart = function()
 		return yAxis
 	}
 
-	var createXAxis=function(tickFormat)
+	var createXAxis=function()
 	{
 		var xAxis = d3.svg.axis()
 		if(_vertical)
@@ -831,12 +867,13 @@ h2d3.chart = function()
 				    .scale(barScale)
 				    .orient((_vertical)? 'left' : 'bottom');
 
+		tickFormat = _tickFormat
 		if(_mode=='SP')
-			barAxis.tickFormat(d3.format('p'))
+			tickFormat = d3.format('.2p')
 		else if(_mode=='C')
-			barAxis.tickFormat(function(n){return _tickFormat(Math.abs(n))})
-		else
-			barAxis.tickFormat(_tickFormat)
+			tickFormat = function(n){return _tickFormat(Math.abs(n))}
+		
+		barAxis.tickFormat(tickFormat)
 
 		transition.select((_vertical)? '.y.h2d3_axis' : '.x.h2d3_axis')
 					.call(barAxis)
