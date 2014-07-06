@@ -710,7 +710,7 @@ h2d3.chart = function()
 			.rangeRoundBands([0,size],0.1)
 
 		scales.group_N = d3.scale.ordinal()
-			.domain(d3.range(nseries-_hidden.length))
+			.domain(d3.range(nseries))
 			.rangeRoundBands([0,scales.group.rangeBand()])
 
 	}
@@ -769,7 +769,10 @@ h2d3.chart = function()
 		  .attr('height',scales.group_N.rangeBand())
 		  .attr('x',function(d){return x(Math.min(0,d.value))})
 		  .attr('y',function(d,i){
-		  	return scales.group_N(serieMap[d.key].index)
+		  	var y = scales.group_N(serieMap[d.key].index)
+		  	if(y!==undefined)
+		  		return y 
+		  	return this.getAttribute('y')// during transition
 		  })		  		
 	},
 	drawFunctions.S = function(bar)
@@ -838,14 +841,24 @@ h2d3.chart = function()
 		/* re-create cumulatives */
 		mdata.forEach(function(d){		
 			createCumulatives(d)
-		})
-
+		})		
 
 		/* recreate x scales */
 		createBarScales()
 
+		/* recreate intra group scale (mode normal) */
+		var indexes = d3.range(nseries)
+		/* remove indexes from list */
+		_hidden.forEach(function(s)
+		{
+			indexes.splice(indexes.indexOf(serieMap[s].index),1)
+		})		
+		scales.group_N.domain(indexes)
+
+
 		/* update data */
 		update()
+
 	}
 
 	var changeMode=function(mode)
