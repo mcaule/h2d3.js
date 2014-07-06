@@ -4,7 +4,8 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <title>h2d3.js by mcaule</title>
-    <script src="javascripts/d3.min.js"></script>
+    <script src="lib/d3.min.js"></script>
+    <script src="lib/d3.tip.js"></script>
     <script src="h2d3.min.js"></script>
     <link href="h2d3.min.css" rel="stylesheet" type="text/css"></link>
 
@@ -81,6 +82,7 @@ var chart1 = h2d3.chart()
             .width(600).height(400)
             .vertical()
             .stackedMode()
+            .tickFormat('f') //rounded value in tooltip
 
 chart1("#chart1",
   createRandomData(4,10,[0,10000])
