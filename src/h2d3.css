@@ -55,19 +55,19 @@ svg.h2d3  {
 
 
 /* default style */
-.h2d3_gridbg.default {
-  display: none;
+.h2d3_gridbg {
+  visibility: hidden;
 }
-.h2d3_grid.default{
+.h2d3_grid{
   stroke: #BBB;
 }
-.h2d3_axis.default path{  
+.h2d3_axis path{  
   stroke: #222;  
 }
-.h2d3_ctrl_dot_selected.default{
+.h2d3_ctrl_dot_selected{
   fill:#222;
 }
-.h2d3_ctrl_circle.default{  
+.h2d3_ctrl_circle{  
   stroke: #222;
 }
 
@@ -76,10 +76,11 @@ svg.h2d3.pastel{
   fill:#555;
 }
 .h2d3_gridbg.pastel {
-  fill:#E4E3E2;
+  visibility: visible;
+  fill:#F4F3F2;
 }
 .h2d3_grid.pastel {
-  stroke: #FFF;  
+  stroke: #E4E3E2;  
   stroke-width:1px;
 }
 .h2d3_axis.pastel path{  
@@ -98,7 +99,7 @@ svg.h2d3.darkpastel{
   background-color: #333333;
 }
 .h2d3_gridbg.darkpastel {
-  display: none;
+  visibility: hidden;
 }
 .h2d3_grid.darkpastel {
   stroke: #7E7E6E;  
