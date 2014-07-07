@@ -15,6 +15,12 @@ svg.h2d3  {
 .h2d3_ctrl_dot{
   fill:none;
 }
+.h2d3_grid{
+  fill:none;
+  shape-rendering: crispEdges;
+  stroke-width: 1px;
+}
+
 /* d3-tip */
 .h2d3-tip {
   font: normal 13px 'Lato', 'Open sans', sans-serif;
@@ -52,6 +58,9 @@ svg.h2d3  {
 .h2d3_gridbg.default {
   display: none;
 }
+.h2d3_grid.default{
+  stroke: #BBB;
+}
 .h2d3_axis.default path{  
   stroke: #222;  
 }
@@ -67,7 +76,11 @@ svg.h2d3.pastel{
   fill:#555;
 }
 .h2d3_gridbg.pastel {
-  fill:#F4F3F2;
+  fill:#E4E3E2;
+}
+.h2d3_grid.pastel {
+  stroke: #FFF;  
+  stroke-width:1px;
 }
 .h2d3_axis.pastel path{  
   stroke: #555;  
@@ -86,6 +99,10 @@ svg.h2d3.darkpastel{
 }
 .h2d3_gridbg.darkpastel {
   display: none;
+}
+.h2d3_grid.darkpastel {
+  stroke: #7E7E6E;  
+  stroke-dasharray:5,5;  
 }
 .h2d3_axis.darkpastel path{  
   stroke: #DDDDDD;  

@@ -188,7 +188,12 @@ h2d3.chart = function()
 			.attr('x',-margin.axis)
 			.attr('y',0)
 			.attr('class','h2d3_gridbg '+_style)
-	
+
+		barContainer.selectAll('h2d3_grid')
+					.call(drawGrid)
+					
+
+
 
 		/* base mode is horizontal, rotate(_90) to vertical*/
 		if(_vertical)
@@ -808,6 +813,20 @@ h2d3.chart = function()
 		  	return (serieMap[d.key].index%2==0)? x(-d.value) : x(0);
 		  })
 		  .attr('y',0)		  
+	}
+
+
+	var drawGrid = function(grid)
+	{
+		var size = (_vertical)? width : height
+		var barScale = scales['bar_'+_mode]
+		grid.data(barScale.ticks(10))
+			.enter().append('line')
+			.attr('class','h2d3_grid '+_style)
+			.attr('y1',_vertical? -margin.axis :0 )
+			.attr('y2',_vertical? size : size+margin.axis)
+			.attr('x1',function(d){return barScale(d)})
+			.attr('x2',function(d){return barScale(d)})
 	}
 
 
