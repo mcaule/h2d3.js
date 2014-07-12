@@ -147,7 +147,7 @@ h2d3.chart = function()
 		yAxis = createYAxis()
 						
 		chartContent.append('g')
-		      .attr('class', 'h2d3_axis y '+_style)
+		      .attr('class', 'h2d3_axis y '+_style+' '+(_vertical? 'barAxis' : 'groupAxis' ))
 		      .call(yAxis)
 		      .attr('transform','translate(-'+margin.axis+',0)')
 
@@ -165,7 +165,7 @@ h2d3.chart = function()
 		xAxis = createXAxis()
 
 		chartContent.append('g')
-				  .attr('class', 'h2d3_axis x '+_style)
+				  .attr('class', 'h2d3_axis x '+_style+' '+(_vertical? 'groupAxis' : 'barAxis' ))
 				  .attr('transform', 'translate(0,' + (height+margin.axis) + ')')
 				  .call(xAxis);
 

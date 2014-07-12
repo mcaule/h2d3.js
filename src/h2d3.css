@@ -21,6 +21,12 @@ svg.h2d3  {
   stroke-width: 1px;
 }
 
+.h2d3_axis.groupAxis > .tick > line
+{
+  stroke-width:1px;
+  shape-rendering: crispEdges;
+}
+
 /* d3-tip */
 .h2d3-tip {
   font: normal 13px 'Lato', 'Open sans', sans-serif;
@@ -70,6 +76,10 @@ svg.h2d3  {
 .h2d3_ctrl_circle{  
   stroke: #222;
 }
+.h2d3_axis.groupAxis > .tick > line
+{
+  stroke:#222;
+}
 
 /* pastel style */
 svg.h2d3.pastel{
@@ -91,6 +101,10 @@ svg.h2d3.pastel{
 }
 .h2d3_ctrl_circle.pastel{  
   stroke: #555;
+}
+.h2d3_axis.groupAxis.pastel > .tick > line
+{
+  stroke:#555;
 }
 
 /* darkpastel style */
@@ -123,4 +137,8 @@ svg.h2d3.darkpastel{
 .h2d3-tip.darkpastel:after
 {
   color: #F4F3F2;  
+}
+.h2d3_axis.groupAxis.darkpastel > .tick > line
+{
+  stroke:#DDDDDD;
 }
