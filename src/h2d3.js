@@ -37,6 +37,7 @@ h2d3.chart = function()
 	var _selectSeries = true
 	var _hidden = []
 	var _sortV = ''
+	var _colors = null
 
 	var scales = {}
 	var drawFunctions = {}
@@ -111,7 +112,11 @@ h2d3.chart = function()
 		/* create colorscale (used in legend) */
 		var colorScale = d3.scale.ordinal()
 			.domain(d3.range(nseries))
-			.range(h2d3.styles[_style])
+
+		if(_colors==null)
+			colorScale.range(h2d3.styles[_style])
+		else
+			colorScale.range(_colors)
 
 		scales   = {color:colorScale}
 
@@ -293,6 +298,13 @@ h2d3.chart = function()
 	{
 		if(!arguments.length) return _selectSeries
 		_selectSeries=_
+		return chart
+	}
+
+	chart.colors=function(_)
+	{
+		if(!arguments.length) return _colors
+		_colors=_
 		return chart
 	}
 
@@ -822,7 +834,7 @@ h2d3.chart = function()
 		var size = (_vertical)? width : height
 		var barScale = scales['bar_'+_mode]
 		grid.data(barScale.ticks(10))
-			.enter().append('line')
+			.enter().append('line')		
 			.attr('class','h2d3_grid '+_style)
 			.attr('y1',_vertical? -margin.axis :0 )
 			.attr('y2',_vertical? size : size+margin.axis)
