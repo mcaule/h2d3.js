@@ -21,7 +21,7 @@ svg.h2d3  {
   stroke-width: 1px;
 }
 
-.h2d3_axis.groupAxis > .tick > line
+.h2d3_axis > .tick > line
 {
   stroke-width:1px;
   shape-rendering: crispEdges;
@@ -64,9 +64,6 @@ svg.h2d3  {
 .h2d3_gridbg {
   visibility: hidden;
 }
-.h2d3_grid{
-  stroke: #BBB;
-}
 .h2d3_axis path{  
   stroke: #222;  
 }
@@ -76,9 +73,9 @@ svg.h2d3  {
 .h2d3_ctrl_circle{  
   stroke: #222;
 }
-.h2d3_axis.groupAxis > .tick > line
+.h2d3_axis > .tick > line
 {
-  stroke:#222;
+  stroke:#BBB;
 }
 
 /* pastel style */
@@ -88,10 +85,6 @@ svg.h2d3.pastel{
 .h2d3_gridbg.pastel {
   visibility: visible;
   fill:#F4F3F2;
-}
-.h2d3_grid.pastel {
-  stroke: #E4E3E2;  
-  stroke-width:1px;
 }
 .h2d3_axis.pastel path{  
   stroke: #555;  
@@ -106,6 +99,10 @@ svg.h2d3.pastel{
 {
   stroke:#555;
 }
+.h2d3_axis.barAxis.pastel > .tick > line {
+  stroke: #E4E3E2;  
+  stroke-width:1px;
+}
 
 /* darkpastel style */
 svg.h2d3.darkpastel{
@@ -114,10 +111,6 @@ svg.h2d3.darkpastel{
 }
 .h2d3_gridbg.darkpastel {
   visibility: hidden;
-}
-.h2d3_grid.darkpastel {
-  stroke: #7E7E6E;  
-  stroke-dasharray:5,5;  
 }
 .h2d3_axis.darkpastel path{  
   stroke: #DDDDDD;  
@@ -141,4 +134,8 @@ svg.h2d3.darkpastel{
 .h2d3_axis.groupAxis.darkpastel > .tick > line
 {
   stroke:#DDDDDD;
+}
+.h2d3_axis.barAxis.darkpastel > .tick > line {
+  stroke: #7E7E6E;  
+  stroke-dasharray:5,5;  
 }

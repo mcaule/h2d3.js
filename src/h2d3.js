@@ -134,7 +134,7 @@ h2d3.chart = function()
 
 		/* create containers */
 		var chartContent = svg.append('g')
-		var barContainer = chartContent.append('g')		
+		
 
 		tickFormat = _tickFormat
 		/* change tick format depending on mode*/
@@ -195,11 +195,14 @@ h2d3.chart = function()
 			.attr('y',0)
 			.attr('class','h2d3_gridbg '+_style)
 
+		/*
 		barContainer.selectAll('h2d3_grid')
 					.call(drawGrid)
-					
+		*/
+		drawGrid(chartContent)			
 
-
+		/* container for bars */
+		var barContainer = chartContent.append('g')		
 
 		/* base mode is horizontal, rotate(_90) to vertical*/
 		if(_vertical)
@@ -829,17 +832,18 @@ h2d3.chart = function()
 	}
 
 
-	var drawGrid = function(grid)
+	var drawGrid = function(chartContent)
 	{
-		var size = (_vertical)? width : height
-		var barScale = scales['bar_'+_mode]
-		grid.data(barScale.ticks(10))
-			.enter().append('line')		
-			.attr('class','h2d3_grid '+_style)
-			.attr('y1',_vertical? -margin.axis :0 )
-			.attr('y2',_vertical? size : size+margin.axis)
-			.attr('x1',function(d){return barScale(d)})
-			.attr('x2',function(d){return barScale(d)})
+		if(_vertical)
+		{
+			yAxis.tickSize(-width,0)
+			chartContent.select('.h2d3_axis.y')
+				.call(yAxis)
+		}else{
+			xAxis.tickSize(-height,0)
+			chartContent.select('.h2d3_axis.x')
+				.call(xAxis)
+		}
 	}
 
 
@@ -914,9 +918,10 @@ h2d3.chart = function()
 			barScale.range([height,0]) 
 		}
 
-		var barAxis = d3.svg.axis()
-				    .scale(barScale)
-				    .orient((_vertical)? 'left' : 'bottom');
+		var barAxis = (_vertical? yAxis : xAxis)
+				    
+		barAxis.scale(barScale)
+			   
 
 		tickFormat = _tickFormat
 		if(_mode=='SP')
