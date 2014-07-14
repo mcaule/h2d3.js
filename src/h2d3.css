@@ -15,6 +15,18 @@ svg.h2d3  {
 .h2d3_ctrl_dot{
   fill:none;
 }
+.h2d3_grid{
+  fill:none;
+  shape-rendering: crispEdges;
+  stroke-width: 1px;
+}
+
+.h2d3_axis > .tick > line
+{
+  stroke-width:1px;
+  shape-rendering: crispEdges;
+}
+
 /* d3-tip */
 .h2d3-tip {
   font: normal 13px 'Lato', 'Open sans', sans-serif;
@@ -49,17 +61,21 @@ svg.h2d3  {
 
 
 /* default style */
-.h2d3_gridbg.default {
-  display: none;
+.h2d3_gridbg {
+  visibility: hidden;
 }
-.h2d3_axis.default path{  
+.h2d3_axis path{  
   stroke: #222;  
 }
-.h2d3_ctrl_dot_selected.default{
+.h2d3_ctrl_dot_selected{
   fill:#222;
 }
-.h2d3_ctrl_circle.default{  
+.h2d3_ctrl_circle{  
   stroke: #222;
+}
+.h2d3_axis > .tick > line
+{
+  stroke:#BBB;
 }
 
 /* pastel style */
@@ -67,6 +83,7 @@ svg.h2d3.pastel{
   fill:#555;
 }
 .h2d3_gridbg.pastel {
+  visibility: visible;
   fill:#F4F3F2;
 }
 .h2d3_axis.pastel path{  
@@ -78,6 +95,14 @@ svg.h2d3.pastel{
 .h2d3_ctrl_circle.pastel{  
   stroke: #555;
 }
+.h2d3_axis.groupAxis.pastel > .tick > line
+{
+  stroke:#555;
+}
+.h2d3_axis.barAxis.pastel > .tick > line {
+  stroke: #E4E3E2;  
+  stroke-width:1px;
+}
 
 /* darkpastel style */
 svg.h2d3.darkpastel{
@@ -85,7 +110,7 @@ svg.h2d3.darkpastel{
   background-color: #333333;
 }
 .h2d3_gridbg.darkpastel {
-  display: none;
+  visibility: hidden;
 }
 .h2d3_axis.darkpastel path{  
   stroke: #DDDDDD;  
@@ -105,4 +130,12 @@ svg.h2d3.darkpastel{
 .h2d3-tip.darkpastel:after
 {
   color: #F4F3F2;  
+}
+.h2d3_axis.groupAxis.darkpastel > .tick > line
+{
+  stroke:#DDDDDD;
+}
+.h2d3_axis.barAxis.darkpastel > .tick > line {
+  stroke: #7E7E6E;  
+  stroke-dasharray:5,5;  
 }

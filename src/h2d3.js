@@ -13,7 +13,8 @@ h2d3.modeNames = {
 h2d3.styles = {	
 	default:["#a6cee3","#ff7f00","#b2df8a","#1f78b4","#fdbf6f","#33a02c","#cab2d6","#6a3d9a","#fb9a99","#e31a1c","#ffff99","#b15928"],
 	pastel:["#61C0E7","#E381B8","#53CDB5","#DC8165","#C296C6","#70AEC3","#6BBA7F","#D39150","#DC7E87","#8DA4D5","#A0B350","#CEAA38"],
-	darkpastel:["#61C0E7","#E381B8","#53CDB5","#DC8165","#C296C6","#70AEC3","#6BBA7F","#D39150","#DC7E87","#8DA4D5","#A0B350","#CEAA38"]					 
+	darkpastel:["#61C0E7","#E381B8","#53CDB5","#DC8165","#C296C6","#70AEC3","#6BBA7F","#D39150","#DC7E87","#8DA4D5","#A0B350","#CEAA38"],
+	colorblind:["#999999", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7"]				 
 }
 h2d3.chart = function()
 {	
@@ -36,6 +37,7 @@ h2d3.chart = function()
 	var _selectSeries = true
 	var _hidden = []
 	var _sortV = ''
+	var _colors = null
 
 	var scales = {}
 	var drawFunctions = {}
@@ -110,7 +112,11 @@ h2d3.chart = function()
 		/* create colorscale (used in legend) */
 		var colorScale = d3.scale.ordinal()
 			.domain(d3.range(nseries))
-			.range(h2d3.styles[_style])
+
+		if(_colors==null)
+			colorScale.range(h2d3.styles[_style])
+		else
+			colorScale.range(_colors)
 
 		scales   = {color:colorScale}
 
@@ -128,7 +134,7 @@ h2d3.chart = function()
 
 		/* create containers */
 		var chartContent = svg.append('g')
-		var barContainer = chartContent.append('g')		
+		
 
 		tickFormat = _tickFormat
 		/* change tick format depending on mode*/
@@ -141,7 +147,7 @@ h2d3.chart = function()
 		yAxis = createYAxis()
 						
 		chartContent.append('g')
-		      .attr('class', 'h2d3_axis y '+_style)
+		      .attr('class', 'h2d3_axis y '+_style+' '+(_vertical? 'barAxis' : 'groupAxis' ))
 		      .call(yAxis)
 		      .attr('transform','translate(-'+margin.axis+',0)')
 
@@ -159,7 +165,7 @@ h2d3.chart = function()
 		xAxis = createXAxis()
 
 		chartContent.append('g')
-				  .attr('class', 'h2d3_axis x '+_style)
+				  .attr('class', 'h2d3_axis x '+_style+' '+(_vertical? 'groupAxis' : 'barAxis' ))
 				  .attr('transform', 'translate(0,' + (height+margin.axis) + ')')
 				  .call(xAxis);
 
@@ -188,7 +194,15 @@ h2d3.chart = function()
 			.attr('x',-margin.axis)
 			.attr('y',0)
 			.attr('class','h2d3_gridbg '+_style)
-	
+
+		/*
+		barContainer.selectAll('h2d3_grid')
+					.call(drawGrid)
+		*/
+		drawGrid(chartContent)			
+
+		/* container for bars */
+		var barContainer = chartContent.append('g')		
 
 		/* base mode is horizontal, rotate(_90) to vertical*/
 		if(_vertical)
@@ -287,6 +301,13 @@ h2d3.chart = function()
 	{
 		if(!arguments.length) return _selectSeries
 		_selectSeries=_
+		return chart
+	}
+
+	chart.colors=function(_)
+	{
+		if(!arguments.length) return _colors
+		_colors=_
 		return chart
 	}
 
@@ -811,6 +832,21 @@ h2d3.chart = function()
 	}
 
 
+	var drawGrid = function(chartContent)
+	{
+		if(_vertical)
+		{
+			yAxis.tickSize(-width,0)
+			chartContent.select('.h2d3_axis.y')
+				.call(yAxis)
+		}else{
+			xAxis.tickSize(-height,0)
+			chartContent.select('.h2d3_axis.x')
+				.call(xAxis)
+		}
+	}
+
+
 	var hide=function(hidden)
 	{
 		_hidden = hidden;
@@ -882,9 +918,10 @@ h2d3.chart = function()
 			barScale.range([height,0]) 
 		}
 
-		var barAxis = d3.svg.axis()
-				    .scale(barScale)
-				    .orient((_vertical)? 'left' : 'bottom');
+		var barAxis = (_vertical? yAxis : xAxis)
+				    
+		barAxis.scale(barScale)
+			   
 
 		tickFormat = _tickFormat
 		if(_mode=='SP')
