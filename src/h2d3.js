@@ -1,7 +1,21 @@
-(function(){
-var h2d3 = window.h2d3 || {};
+(function(factory){
+	if(typeof define === "function"  && define.amd)
+	{
+		define(['d3','d3-tip'],factory)
+	}else{
+		if(d3 && d3.tip)
+			window.h2d3 = factory(d3,d3.tip)
+		else
+			window.h2d3 = factory(d3)
+	}
+}(
+function(d3,d3tip)
+{
 
-window.h2d3 = h2d3;	
+var h2d3 = {};
+
+var hasTip = !(typeof d3tip === "undefined")
+
 
 h2d3.modeNames = {
 	'N':'Normal',
@@ -56,7 +70,7 @@ h2d3.chart = function()
 
 	var _style  = 'default'
 
-	var hasTip = d3.hasOwnProperty('tip')
+	
 	var tip = null
 
 	function chart(el,data){
@@ -597,7 +611,7 @@ h2d3.chart = function()
 
 	var createTip=function()
 	{		
-		tip = d3.tip()
+		tip = d3tip()
 		  .attr('class', 'h2d3-tip '+_style)
 		  .offset([-10, 0])
 		  .direction('n')
@@ -1107,6 +1121,10 @@ h2d3.chart = function()
 	}
 
 	return chart;
+};
+
+
+return h2d3;
 }
 
-})();
+));
