@@ -445,6 +445,94 @@ h2d3.chart = function()
 		return chart
 	}
 
+	chart.updateData = function(data){
+		//control same kind of data
+
+		function getOldData(group,serie)
+		{
+			for (var i = 0; i < mdata.length; i++) {
+				if(mdata[i].label==group)
+				{
+					for (var j = 0; j < mdata[i].series.length; j++) {
+						if(mdata[i].series[j].key==serie)
+							return mdata[i].series[j].value
+					};
+					return null
+				}
+			};
+			return null
+		}
+
+		function getNewData(group,serie)
+		{
+			for (var i = 0; i < data.length; i++) {
+				if(data[i].key==serie)
+				{
+					for (var j = 0; j < data[i].values.length; j++) {
+						if(data[i].values[j].label==group)
+							return data[i].values[j].value
+					};
+					return null
+				}
+			};
+			return null
+		}
+
+		for (var i = 0; i < data.length; i++) {
+			for (var j = 0; j < data[i].values.length; j++) {
+				var old = getOldData(data[i].values[j].label,data[i].key)
+				if(old === null)
+				{
+					console.error("[h2d3.js] Error : incorrect updateData, item does not exist in previous data :",
+						data[i].values[j].label,data[i].key)
+					return
+				}
+			}			
+		};
+		
+		/* set hidden series values to 0 */
+		mdata.map(function(g)
+		{
+			var tot = 0
+			g.series.map(function(d)
+			{			
+				d.value = getNewData(g.label,d.key)	
+				if(d.hasOwnProperty('hvalue'))
+				{
+					d.hvalue = d.value //keep real value in hvalue property
+					d.value=0
+				}
+				tot += d.value
+			})
+			if(tot==0)
+				tot=1;//prevent div#0
+			g.total = tot
+		})	
+
+		/* re-create cumulatives */
+		mdata.forEach(function(d){		
+			createCumulatives(d)
+		})		
+
+		/* recreate x scales */
+		createBarScales()
+
+		/* recreate intra group scale (mode normal) */
+		var indexes = d3.range(nseries)
+		/* remove indexes from list */
+		_hidden.forEach(function(s)
+		{
+			indexes.splice(indexes.indexOf(serieMap[s].index),1)
+		})		
+		scales.group_N.domain(indexes)
+
+
+		/* update data */
+		update()
+
+		return chart
+	}
+
 	
 	/*
 		create the control box (change mode feature)
@@ -1086,6 +1174,8 @@ h2d3.chart = function()
 	{
 		var dictData = {}
 		var matrixData = []
+		var groupnames = []
+
 		data.forEach(function(s,i)
 		{  
 		  var serieObj = {
@@ -1117,6 +1207,7 @@ h2d3.chart = function()
 
 		dictData = null;
 
+		console.log(matrixData)
 		return matrixData;
 	}
 
