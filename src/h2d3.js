@@ -69,6 +69,10 @@ h2d3.chart = function()
 	var hasRotateXLabels = false
 
 	var _style  = 'default'
+	var _tipFunction = function(d) {
+	  	var v = _mode=='SP' ? d.percent : d.value
+	    return ' <span style="color:'+scales.color(serieMap[d.key].index)+'">'+d.key+'</span><span class="h2d3-tip_text '+_style+'" > : '+ tickFormat(v) + '</span>';
+	  }
 
 	
 	var tip = null
@@ -445,6 +449,14 @@ h2d3.chart = function()
 		return chart
 	}
 
+	chart.tipFunction = function(_)
+	{
+		if(!arguments.length) return _tipFunction
+		
+		_tipFunction = _
+		return chart	
+	}
+
 	chart.updateData = function(data){
 		//control same kind of data
 
@@ -703,10 +715,7 @@ h2d3.chart = function()
 		  .attr('class', 'h2d3-tip '+_style)
 		  .offset([-10, 0])
 		  .direction('n')
-		  .html(function(d) {
-		  	var v = _mode=='SP' ? d.percent : d.value
-		    return ' <span style="color:'+scales.color(serieMap[d.key].index)+'">'+d.key+'</span><span class="h2d3-tip_text '+_style+'" > : '+ tickFormat(v) + '</span>';
-		  })
+		  .html(_tipFunction)
 		if(_vertical)
 		{
 			// if vertical the rotation cause trouble to compute tooltip's position
