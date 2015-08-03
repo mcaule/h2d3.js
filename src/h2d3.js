@@ -233,6 +233,7 @@ h2d3.chart = function()
 		{
 			createTip()
 			barContainer.call(tip)
+			chart.tip = tip
 		}
 		/* create groups */
 		var group = barContainer.selectAll('.h2d3_group')
