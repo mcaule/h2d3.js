@@ -1,0 +1,26 @@
+{
+  "name": "h2d3.js",
+  "version": "1.0.0",
+  "description": "Bar chart library based on d3.js",
+  "main": "src/h2d3.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mcaule/h2d3.js.git"
+  },
+  "keywords": [
+    "d3"
+  ],
+  "author": "Matthieu Caule",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mcaule/h2d3.js/issues"
+  },
+  "homepage": "https://github.com/mcaule/h2d3.js",
+  "dependencies": {
+    "d3": "^3.5.6",
+    "d3-tip": "^0.6.7"
+  }
+}
