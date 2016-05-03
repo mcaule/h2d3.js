@@ -4,10 +4,10 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <title>h2d3.js by mcaule</title>
-    <script src="lib/d3.min.js"></script>
-    <script src="lib/d3.tip.js"></script>
-    <script src="h2d3.min.js"></script>
-    <link href="h2d3.min.css" rel="stylesheet" type="text/css"></link>
+    <script src="node_modules/d3/d3.min.js"></script>
+    <script src="node_modules/d3-tip/index.js"></script>
+    <script src="src/h2d3.js"></script>
+    <link href="src/h2d3.css" rel="stylesheet" type="text/css"></link>
 
     <link rel="stylesheet" href="stylesheets/styles.css">
     <link rel="stylesheet" href="stylesheets/pygment_trac.css">
@@ -44,8 +44,8 @@
         </ul>
       </header>
       <section>
-     <h1>h2d3.js Examples</h1>  
-     <h2>Discrete vertical bar chart</h1>  
+     <h1>h2d3.js Examples</h1>
+     <h2>Discrete vertical bar chart</h1>
       <div>
         <div class="chart" id='chart1'></div>
         <div>
@@ -53,7 +53,7 @@
           <script src="https://gist.github.com/mcaule/e798a7a4b66ffc92c6f1.js"></script>
         </div>
       </div>
-      <h2>Horizontal chart with long labels</h1>  
+      <h2>Horizontal chart with long labels</h1>
       <div>
         <div class="chart" id='chart2'></div>
         <div>
@@ -61,7 +61,7 @@
           <script src="https://gist.github.com/mcaule/c4120c0709a4eb2e3e97.js"></script>
         </div>
       </div>
-      <h2>Vertical bar chart with long labels and dark theme</h1>  
+      <h2>Vertical bar chart with long labels and dark theme</h1>
       <div>
         <div class="chart" id='chart3'></div>
         <div>
@@ -92,11 +92,11 @@ chart1("#chart1",
 function createRandomData(nseries,ngroup,range)
 {
   var data = []
-  for (var i = 0; i<nseries; i++) 
+  for (var i = 0; i<nseries; i++)
   {
     var obj = {key:'Serie '+i,values:[]
     }
-    for (var j = 0; j<ngroup; j++)  
+    for (var j = 0; j<ngroup; j++)
     {
       obj.values.push({
         label:'group '+j,
@@ -114,7 +114,7 @@ var chart2 = h2d3.chart()
           .width(600).height(300)
           .centerMode()
           .style('pastel')
-           
+
 chart2('#chart2',[
   {
     "key": "Serie1",
@@ -133,14 +133,14 @@ chart2('#chart2',[
       {"label":"Group C","value":45},
       {"label":"Group D","value":61},
       {"label" : "Group with a very very very very long label" ,"value" : 2  }
-    ]}]) 
+    ]}])
 
 var chart3 = h2d3.chart()
           .width(600).height(400)
           .stackedMode()
           .vertical()
           .style('darkpastel')
-           
+
 chart3('#chart3',[
   {
     "key": "Serie 1",
@@ -170,10 +170,10 @@ chart3('#chart3',[
       {"label":"Group E","value":30},
       {"label" : "Group with a very long label" ,"value" : 24  }
     ]}
-    ]) 
+    ])
 
 </script>
 
-    
+
   </body>
 </html>

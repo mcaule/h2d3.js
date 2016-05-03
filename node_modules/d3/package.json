@@ -1,0 +1,100 @@
+{
+  "name": "d3",
+  "version": "3.5.16",
+  "description": "A JavaScript visualization library for HTML and SVG.",
+  "keywords": [
+    "dom",
+    "w3c",
+    "visualization",
+    "svg",
+    "animation",
+    "canvas"
+  ],
+  "homepage": "http://d3js.org",
+  "author": {
+    "name": "Mike Bostock",
+    "url": "http://bost.ocks.org/mike"
+  },
+  "contributors": [
+    {
+      "name": "Jason Davies",
+      "url": "http://jasondavies.com"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mbostock/d3.git"
+  },
+  "main": "d3.js",
+  "browser": "d3.js",
+  "jspm": {
+    "main": "d3",
+    "shim": {
+      "d3": {
+        "exports": "d3"
+      }
+    },
+    "files": [
+      "d3.js"
+    ],
+    "buildConfig": {
+      "uglify": true
+    }
+  },
+  "jam": {
+    "main": "d3.js",
+    "shim": {
+      "exports": "d3"
+    }
+  },
+  "spm": {
+    "main": "d3.js"
+  },
+  "devDependencies": {
+    "jsdom": "3",
+    "seedrandom": "2",
+    "smash": "0.0",
+    "uglify-js": "2.6.1",
+    "vows": "0.8"
+  },
+  "scripts": {
+    "test": "vows && echo",
+    "prepublish": "npm test && rm -f package.js src/start.js d3.js d3.min.js d3.zip && bin/start > src/start.js && bin/meteor > package.js && smash src/d3.js | uglifyjs - -b indent-level=2 -o d3.js && bin/uglify d3.js > d3.min.js && chmod a-w d3.js d3.min.js package.js && zip d3.zip LICENSE d3.js d3.min.js",
+    "postpublish": "VERSION=`node -e 'console.log(require(\"./package.json\").version)'`; git push && git tag -am \"Release $VERSION.\" v${VERSION} && git push --tags && cp -v README.md LICENSE d3.js d3.min.js ../d3-bower && cd ../d3-bower && git add README.md LICENSE d3.js d3.min.js && git commit -m \"Release $VERSION.\" && git tag -am \"Release $VERSION.\" v${VERSION} && git push && git push --tags && cd - && cp -v d3.js ../d3.github.com/d3.v3.js && cp -v d3.min.js ../d3.github.com/d3.v3.min.js && cd ../d3.github.com && git add d3.v3.js d3.v3.min.js && git commit -m \"d3 ${VERSION}\" && git push"
+  },
+  "license": "BSD-3-Clause",
+  "gitHead": "c36befc7361cd61538294048c387a8a407b65dd1",
+  "bugs": {
+    "url": "https://github.com/mbostock/d3/issues"
+  },
+  "_id": "d3@3.5.16",
+  "_shasum": "a518d6ced154a3078f2cb78ae1f8ad95342b2734",
+  "_from": "d3@*",
+  "_npmVersion": "2.14.9",
+  "_nodeVersion": "0.12.8",
+  "_npmUser": {
+    "name": "mbostock",
+    "email": "mike@ocks.org"
+  },
+  "dist": {
+    "shasum": "a518d6ced154a3078f2cb78ae1f8ad95342b2734",
+    "tarball": "http://registry.npmjs.org/d3/-/d3-3.5.16.tgz"
+  },
+  "maintainers": [
+    {
+      "name": "mbostock",
+      "email": "mbostock@gmail.com"
+    },
+    {
+      "name": "jasondavies",
+      "email": "jason@jasondavies.com"
+    }
+  ],
+  "_npmOperationalInternal": {
+    "host": "packages-6-west.internal.npmjs.com",
+    "tmp": "tmp/d3-3.5.16.tgz_1455759566344_0.6091886162757874"
+  },
+  "directories": {},
+  "_resolved": "https://registry.npmjs.org/d3/-/d3-3.5.16.tgz",
+  "readme": "ERROR: No README data found!"
+}
