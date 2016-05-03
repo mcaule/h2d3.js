@@ -1,0 +1,32 @@
+{
+  "name": "h2d3.js",
+  "version": "0.1.0",
+  "homepage": "https://github.com/mcaule/h2d3.js",
+  "authors": [
+    "mcaule matthieu.caule@gmail.com"
+  ],
+  "description": "Simple d3 library for creating bar charts",
+  "main": "src/h2d3.js",
+  "moduleType": [
+    "amd",
+    "globals"
+  ],
+  "keywords": [
+    "d3"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "resolutions": {
+    "d3": "~3.5.6"
+  },
+  "dependencies": {
+    "d3": "~3.5.6",
+    "d3-tip": "~0.6.7"
+  }
+}

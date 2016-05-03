@@ -1,7 +1,21 @@
-(function(){
-var h2d3 = window.h2d3 || {};
+(function(factory){
+	if(typeof define === "function"  && define.amd)
+	{
+		define(['d3','d3-tip'],factory)
+	}else{
+		if(d3 && d3.tip)
+			window.h2d3 = factory(d3,d3.tip)
+		else
+			window.h2d3 = factory(d3)
+	}
+}(
+function(d3,d3tip)
+{
 
-window.h2d3 = h2d3;	
+var h2d3 = {};
+
+var hasTip = !(typeof d3tip === "undefined")
+
 
 h2d3.modeNames = {
 	'N':'Normal',
@@ -55,8 +69,12 @@ h2d3.chart = function()
 	var hasRotateXLabels = false
 
 	var _style  = 'default'
+	var _tipFunction = function(d) {
+	  	var v = _mode=='SP' ? d.percent : d.value
+	    return ' <span style="color:'+scales.color(serieMap[d.key].index)+'">'+d.key+'</span><span class="h2d3-tip_text '+_style+'" > : '+ tickFormat(v) + '</span>';
+	  }
 
-	var hasTip = d3.hasOwnProperty('tip')
+	
 	var tip = null
 
 	function chart(el,data){
@@ -215,6 +233,7 @@ h2d3.chart = function()
 		{
 			createTip()
 			barContainer.call(tip)
+			chart.tip = tip
 		}
 		/* create groups */
 		var group = barContainer.selectAll('.h2d3_group')
@@ -431,6 +450,102 @@ h2d3.chart = function()
 		return chart
 	}
 
+	chart.tipFunction = function(_)
+	{
+		if(!arguments.length) return _tipFunction
+		
+		_tipFunction = _
+		return chart	
+	}
+
+	chart.updateData = function(data){
+		//control same kind of data
+
+		function getOldData(group,serie)
+		{
+			for (var i = 0; i < mdata.length; i++) {
+				if(mdata[i].label==group)
+				{
+					for (var j = 0; j < mdata[i].series.length; j++) {
+						if(mdata[i].series[j].key==serie)
+							return mdata[i].series[j].value
+					};
+					return null
+				}
+			};
+			return null
+		}
+
+		function getNewData(group,serie)
+		{
+			for (var i = 0; i < data.length; i++) {
+				if(data[i].key==serie)
+				{
+					for (var j = 0; j < data[i].values.length; j++) {
+						if(data[i].values[j].label==group)
+							return data[i].values[j].value
+					};
+					return null
+				}
+			};
+			return null
+		}
+
+		for (var i = 0; i < data.length; i++) {
+			for (var j = 0; j < data[i].values.length; j++) {
+				var old = getOldData(data[i].values[j].label,data[i].key)
+				if(old === null)
+				{
+					console.error("[h2d3.js] Error : incorrect updateData, item does not exist in previous data :",
+						data[i].values[j].label,data[i].key)
+					return
+				}
+			}			
+		};
+		
+		/* set hidden series values to 0 */
+		mdata.map(function(g)
+		{
+			var tot = 0
+			g.series.map(function(d)
+			{			
+				d.value = getNewData(g.label,d.key)	
+				if(d.hasOwnProperty('hvalue'))
+				{
+					d.hvalue = d.value //keep real value in hvalue property
+					d.value=0
+				}
+				tot += d.value
+			})
+			if(tot==0)
+				tot=1;//prevent div#0
+			g.total = tot
+		})	
+
+		/* re-create cumulatives */
+		mdata.forEach(function(d){		
+			createCumulatives(d)
+		})		
+
+		/* recreate x scales */
+		createBarScales()
+
+		/* recreate intra group scale (mode normal) */
+		var indexes = d3.range(nseries)
+		/* remove indexes from list */
+		_hidden.forEach(function(s)
+		{
+			indexes.splice(indexes.indexOf(serieMap[s].index),1)
+		})		
+		scales.group_N.domain(indexes)
+
+
+		/* update data */
+		update()
+
+		return chart
+	}
+
 	
 	/*
 		create the control box (change mode feature)
@@ -597,14 +712,11 @@ h2d3.chart = function()
 
 	var createTip=function()
 	{		
-		tip = d3.tip()
+		tip = d3tip()
 		  .attr('class', 'h2d3-tip '+_style)
 		  .offset([-10, 0])
 		  .direction('n')
-		  .html(function(d) {
-		  	var v = _mode=='SP' ? d.percent : d.value
-		    return ' <span style="color:'+scales.color(serieMap[d.key].index)+'">'+d.key+'</span><span class="h2d3-tip_text '+_style+'" > : '+ tickFormat(v) + '</span>';
-		  })
+		  .html(_tipFunction)
 		if(_vertical)
 		{
 			// if vertical the rotation cause trouble to compute tooltip's position
@@ -1072,6 +1184,8 @@ h2d3.chart = function()
 	{
 		var dictData = {}
 		var matrixData = []
+		var groupnames = []
+
 		data.forEach(function(s,i)
 		{  
 		  var serieObj = {
@@ -1103,10 +1217,15 @@ h2d3.chart = function()
 
 		dictData = null;
 
+		console.log(matrixData)
 		return matrixData;
 	}
 
 	return chart;
+};
+
+
+return h2d3;
 }
 
-})();
+));
