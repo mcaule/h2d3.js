@@ -1,10 +1,11 @@
 {
   "name": "h2d3.js",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Bar chart library based on d3.js",
   "main": "src/h2d3.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build":"gulp build"
   },
   "repository": {
     "type": "git",
@@ -22,5 +23,12 @@
   "dependencies": {
     "d3": "^3.5.6",
     "d3-tip": "^0.6.7"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-clean-css": "^2.0.13",
+    "gulp-rename": "^1.2.2",
+    "gulp-uglify": "^2.0.0",
+    "pump": "^1.0.1"
   }
 }
